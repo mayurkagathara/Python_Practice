@@ -22,6 +22,7 @@ def merge_arrays(left_marker,middle_marker,right_marker):
       j += 1
     k += 1
     plot_array(arr,title=title)
+  plot_array(arr,title=title)
   while i<len(array_1):
     arr[k] = array_1[i]
     i+=1
@@ -63,5 +64,5 @@ print(arr)
 # input()
 mergeSort(arr,0,len(arr)-1)
 plot_array(arr,'Merge Sort Finished')
-# input()
+input()
 print(arr)
