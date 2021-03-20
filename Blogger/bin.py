@@ -45,64 +45,36 @@
 #   print(c)
 
 
-
-# %%
-def digits(number):
-    # pythonic way
-    number_str = str(number)
-    digits_arr = list(map(int,number_str))
-    return digits_arr
-
-    #Standard way coming soon
-
-
-# %%    
-def multiply(arr,x):
+#%%
+def findpeak_window(arr,w):
     """
-    To multiply the array arr as number with x and retutn array as answer.
-    ex. [1,2,3]*5 = [6,1,5]
+    To find the preak from the array whose nearest w neighbors are
+    smaller than it. We consider -inf valley on both sides of the array. 
+    4 is peak for window = 2 if ==> 1 2 4 3 2, 2 1 4 2 3, 4 1 2, 3 2 4
     """
-    print(arr,x)
-    multiplication_arr = []
-    current_carry = 0
-    for number in arr[::-1]: #array in reverse order
-        multiplication = number*x + current_carry
-        current_carry = (multiplication - multiplication%10)//10
-        unit_digit = multiplication - (current_carry*10)
-        multiplication_arr.insert(0,unit_digit)
-        print(number,multiplication,unit_digit,current_carry)
-        print(multiplication_arr)
+    if(len(arr) < w+1):
+        raise IndexError(f"Array length is less than {w+1}")
 
-    #to check if we have carry while multiplying last digit
-    if current_carry:
-        digits_in_current_carry = digits(current_carry)
-        for digit in digits_in_current_carry[::-1]:
-            multiplication_arr.insert(0,digit)
-    return multiplication_arr
-multiply([8, 7, 1, 7, 8, 2, 9, 1, 2, 0, 0], 15)
-
-# %%
-def big_factorial(n):
-    """
-    To find the factorial of a big number considering there is no bignum in the python using array.
-    We take assumption that our factorial consumes more bits than available in the largest datatype available.
-    """
-    if n==0:
-        return 1
-
-    answer = [1]
-    for x in range(2,n+1):
-        answer = multiply(answer,x)
+    # let's check if edge elements are peak
+    if arr[0]>max(arr[1 : (w+1)]) :
+        return 0
+    if arr[-1]>max(arr[-2:-(w+2):-1]):
+        return len(arr)-1
     
-    return(answer)
+    for i in range(w,len(arr)-w):
+        if arr[i] > max( max(arr[ i-w : i ]), max(arr[i+1:i+w+1])):
+            return i
 
-big_factorial(15)
+    return('No Peak found!!')
 
-# %%
-def factorial(n):
-    if n==0:
-        return 1
-    return n*factorial(n-1)
-    
-factorial(20)
+# driver code:
+
+arr1 = [1,2,3,1,4,5,5,4,5,3,1]
+arr2 = [5,3,10]
+arr3 = [1,2,3,1,4,5,8,4,5,3,1]
+print(findpeak_window(arr1,1))
+print(findpeak_window(arr2,2))
+print(findpeak_window(arr3,3))
+print(findpeak_window(arr3,4))
+print(findpeak_window(arr3,5))
 # %%
