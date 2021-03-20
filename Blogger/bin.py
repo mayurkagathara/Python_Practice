@@ -44,37 +44,51 @@
 # for c in combs:
 #   print(c)
 
+# %%
+min_coins_table = {1:1} #base case
+def rec_change(target,coins):
+    # min_coins = 1
+    current_coin_counts = 0
+    tgt = target
+    for coin in coins[::-1]:
+        if coin<=tgt:
+            current_coin_counts += tgt//coin
+            tgt = tgt - coin * (tgt//coin)
 
-#%%
-def findpeak_window(arr,w):
+    return current_coin_counts
+
+print(rec_change(10,[1,5,10]))
+print(rec_change(8,[1,5,10]))
+print(rec_change(13,[1,5,10]))
+# %%
+for x in range(21):
+    print(x,rec_change(x,[1,5,10]))
+# %%
+min_coins_table = {1:1} #base case
+def rec_change_dyn(target,coins):
     """
-    To find the preak from the array whose nearest w neighbors are
-    smaller than it. We consider -inf valley on both sides of the array. 
-    4 is peak for window = 2 if ==> 1 2 4 3 2, 2 1 4 2 3, 4 1 2, 3 2 4
+    Minimum coins needed to make change of target from coins.
+    Assumption coins are sorted. if not use coins = sorted(coins) 
     """
-    if(len(arr) < w+1):
-        raise IndexError(f"Array length is less than {w+1}")
+    coins = sorted(coins,reverse=True)
+    current_coin_counts = 0
+    tgt = target
+    for coin in coins:
+        if coin<=tgt:
+            current_coin_counts += tgt//coin
+            tgt = tgt - coin * (tgt//coin)
+            if min_coins_table.get(tgt,0):
+                print("using memo")
+                answer = current_coin_counts + min_coins_table.get(tgt)
+                min_coins_table[target] = answer
+                return answer
+    min_coins_table[target] = current_coin_counts
+    return current_coin_counts
 
-    # let's check if edge elements are peak
-    if arr[0]>max(arr[1 : (w+1)]) :
-        return 0
-    if arr[-1]>max(arr[-2:-(w+2):-1]):
-        return len(arr)-1
-    
-    for i in range(w,len(arr)-w):
-        if arr[i] > max( max(arr[ i-w : i ]), max(arr[i+1:i+w+1])):
-            return i
-
-    return('No Peak found!!')
-
-# driver code:
-
-arr1 = [1,2,3,1,4,5,5,4,5,3,1]
-arr2 = [5,3,10]
-arr3 = [1,2,3,1,4,5,8,4,5,3,1]
-print(findpeak_window(arr1,1))
-print(findpeak_window(arr2,2))
-print(findpeak_window(arr3,3))
-print(findpeak_window(arr3,4))
-print(findpeak_window(arr3,5))
+print(rec_change_dyn(10,[1,5,10]))
+print(rec_change_dyn(8,[1,5,10]))
+print(rec_change_dyn(13,[1,5,10]))
+print(rec_change_dyn(74,[1,5,10,25]))
+for x in range(21):
+    print(x,rec_change_dyn(x,[1,5,10]),end=' , ')
 # %%
