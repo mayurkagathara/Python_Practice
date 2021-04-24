@@ -91,5 +91,15 @@ print(f"{'MAD':>15}",MAD(array))
 # print(percentile(test_arr,75))
 # print(percentile(test_arr,90))
 # print(percentile(test_arr,99))
-
+'''
+--------------------------------------------------
+           Mean 506.515
+         Median 503.0
+       Variance 86585.0737749999
+Standard Deviation 294.25341760971935
+            IQR 520.75
+         90perc 899.1
+         99perc 988.02
+            MAD 258.5
+'''
 # %%
