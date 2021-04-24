@@ -4,15 +4,15 @@ from scipy.stats import median_abs_deviation,iqr
 import math
 np.random.seed(100)
 
-# array = np.random.randint(0,1000,size=1000)
+array = np.random.randint(0,1000,size=1000)
 # array = [12,2,33,1,41,1,26,3,64,45,5,65,6,26,73]
-array = [1,2,3,4,5,6,7,8,9,10]
+# array = [1,2,3,4,5,6,7,8,9,10]
 print(f"{'Mean':>25}",np.mean(array))
 print(f"{'Median':>25}",np.median(array))
 print(f"{'Variance':>25}",np.var(array))
 print(f"{'Standard Deviation':>25}", np.std(array))
 quantiles = np.quantile(array,[0.25,0.50,0.75,0.90,0.99])
-print(f"{'IQR':>25}",quantiles[2]-quantiles[0],iqr(array))
+print(f"{'IQR':>25}",iqr(array))
 print(f"{'90perc':>25}",quantiles[3])
 print(f"{'99perc':>25}",quantiles[4])
 print(f"{'Median Absolute Deviation':>25}",median_abs_deviation(array))
@@ -53,15 +53,16 @@ def stdev(arr):
     return math.sqrt(variance(arr))
 def percentile(arr, kth):
     if kth==0:
-        return 0
+        return arr[0]
     
     sorted_arr = sorted(arr)
-    # linear interpolation
-    left_ind = math.floor((len(arr)+1)*(kth/100)) - 1
-    right_ind = math.ceil((len(arr)+1)*(kth/100)) - 1
-    kth_precentile = mean([sorted_arr[left_ind],sorted_arr[right_ind]])
+    index = (len(arr)-1)*(kth/100)
+    fraction_part = index - math.floor(index)
+    left_number = sorted_arr[math.floor(index)]
+    right_number = sorted_arr[math.ceil(index)]
+    fraction = fraction_part*(right_number - left_number)
+    kth_precentile = left_number + fraction
     return kth_precentile
-
 
 def IQR(arr):
     return percentile(arr,75) - percentile(arr,25)
@@ -80,4 +81,15 @@ print(f"{'IQR':>15}",IQR(array))
 print(f"{'90perc':>15}",percentile(array,90))
 print(f"{'99perc':>15}",percentile(array,99))
 print(f"{'MAD':>15}",MAD(array))
+
+# %%
+# test_arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12]
+# print(np.quantile(test_arr,[0,0.25,0.5,0.75,0.9,0.99]))
+
+# print(percentile(test_arr,25))
+# print(percentile(test_arr,50))
+# print(percentile(test_arr,75))
+# print(percentile(test_arr,90))
+# print(percentile(test_arr,99))
+
 # %%
