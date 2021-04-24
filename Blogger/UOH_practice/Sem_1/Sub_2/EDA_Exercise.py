@@ -5,6 +5,7 @@ import math
 np.random.seed(100)
 
 array = np.random.randint(0,1000,size=1000)
+# array = [12,2,33,1,41,1,26,3,64,45,5,65,6,26,73]
 print(f"{'Mean':>25}",np.mean(array))
 print(f"{'Median':>25}",np.median(array))
 print(f"{'Variance':>25}",np.var(array))
@@ -65,3 +66,4 @@ print(f"{'IQR':>15}",IQR(array))
 print(f"{'90perc':>15}",quantile(array,90))
 print(f"{'99perc':>15}",quantile(array,99))
 print(f"{'MAD':>15}",MAD(array))
+# %%
