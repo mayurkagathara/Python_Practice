@@ -5,6 +5,8 @@ import math
 np.random.seed(100)
 
 array = np.random.randint(0,1000,size=1000)
+# array = list(range(1,28))
+# print(array)
 # array = [12,2,33,1,41,1,26,3,64,45,5,65,6,26,73]
 # array = [1,2,3,4,5,6,7,8,9,10]
 print(f"{'Mean':>25}",np.mean(array))
